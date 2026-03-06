@@ -280,12 +280,11 @@ This project is licensed under the MIT License - see the repository for details.
 ## 📞 Support
 
 For demo, questions, or collaboration:
-- **Email**: demo@cognicam.ai
+- **Email**: deepthikumar604@gmail.com
 - **GitHub**: Issues and discussions
-- **LinkedIn**: COGNICAM team
 
 ---
 
-**Built with ❤️ for IIT Hyderabad Hackathon 2025**
+**Built with ❤️ for IIT Hyderabad Hackathon 2026**
 
 *Transforming Indian SME lending with AI-powered credit appraisal*
