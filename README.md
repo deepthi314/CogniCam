@@ -1,6 +1,6 @@
 # COGNICAM — Context-Aware Credit Appraisal Engine
 
-**IIT Hyderabad Hackathon 2025** 🚀
+**IIT Hyderabad Hackathon 2026** 🚀
 
 A production-ready web application for automated credit appraisal of Indian SME lending, powered by AI and explainable machine learning.
 
