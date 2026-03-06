@@ -1,0 +1,33 @@
+# Environments
+.env
+cognicam/backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# Databases
+*.db
+*.sqlite3
+cognicam/backend/cognicam.db
+
+# Frontend
+node_modules/
+dist/
+.parcel-cache
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Antigravity/Agent Artifacts
+.gemini/
+brain/
+logs/
+.system_generated/
+*.md
+!README.md
+!cognicam/README.md

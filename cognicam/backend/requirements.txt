@@ -1,0 +1,37 @@
+# Web framework
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
+pydantic>=2.0.0
+
+# Document processing
+pytesseract>=0.3.10
+Pillow>=10.0.0
+pdf2image>=1.17.0
+PyPDF2>=3.0.0
+
+# Data
+pandas>=2.0.0
+numpy>=1.24.0
+
+# HTTP & Scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=5.0.0
+httpx>=0.26.0
+
+# HuggingFace — install torch CPU FIRST (see README)
+transformers>=4.40.0
+
+# ML
+scikit-learn>=1.4.0
+shap>=0.45.0
+
+# Document generation
+python-docx>=1.1.0
+
+# LLM (cloud, no local compute)
+groq>=0.9.0
+
+# Utilities
+python-dotenv>=1.0.0
