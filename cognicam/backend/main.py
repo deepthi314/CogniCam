@@ -20,7 +20,8 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Enable CORS for all origins
+from fastapi.middleware.cors import CORSMiddleware
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -48,30 +49,9 @@ async def root():
     return {"status": "COGNICAM Online", "version": "1.0.0"}
 
 @app.get("/health")
-async def health_check():
-    """Detailed health check"""
-    return {
-        "status": "healthy",
-        "service": "COGNICAM",
-        "version": "1.0.0",
-        "description": "Context-Aware Credit Appraisal Engine"
-    }
+def health():
+    return {"status": "ok", "service": "COGNICAM API"}
 
 if __name__ == "__main__":
-    # Print startup banner
-    print("=" * 60)
-    print("COGNICAM - Context-Aware Credit Appraisal Engine")
-    print("IIT Hyderabad Hackathon 2025")
-    print("=" * 60)
-    print("🚀 Starting FastAPI server on http://0.0.0.0:8000")
-    print("📖 API Documentation: http://0.0.0.0:8000/docs")
-    print("=" * 60)
-    
-    # Run uvicorn server
-    uvicorn.run(
-        "main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info"
-    )
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
