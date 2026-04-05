@@ -2,7 +2,7 @@
 // Context-Aware Credit Appraisal Engine
 
 // CONSTANTS
-const API_BASE = "http://localhost:8000/api";
+const API_BASE = "https://cognicam.onrender.com";
 
 // Demo Data - Complete realistic responses for all API calls
 const DEMO_DATA = {
