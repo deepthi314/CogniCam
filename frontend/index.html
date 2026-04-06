@@ -1186,7 +1186,9 @@
             showLoading(true, "Compiling Portfolio Intelligence...");
             let data;
             try {
-                if (!state.token) throw new Error("demo");
+                if (!state.token || state.token === 'demo-jwt-token' || DEMO_MODE) {
+                    throw new Error("Using Demo Intelligence");
+                }
                 const resp = await fetch(`${API_BASE}/history/analytics`, {
                     headers: { 'Authorization': `Bearer ${state.token}` }
                 });
@@ -1525,7 +1527,8 @@
             // Instant Demo Fallback
             if (user === 'demo' && pass === 'demo123') {
                 state.token = "demo-jwt-token";
-                state.user = DEMO_DATA.user;
+                state.user = { ...DEMO_DATA.user, demo: true };
+                state.demoMode = true;
                 localStorage.setItem('token', state.token);
                 localStorage.setItem('user', JSON.stringify(state.user));
                 showToast("Logged in as Demo User", "success");
@@ -1671,7 +1674,17 @@
             }
         }
 
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) sidebar.classList.toggle('open');
+        }
+
         async function loadDashboard() {
+            // Priority Demo Mode Check
+            if (state.token === 'demo-jwt-token' || (state.user && (state.user.username === 'demo' || state.user.demo))) {
+                return useDemoStats();
+            }
+
             try {
                 const resp = await fetch(`${API_BASE}/history/stats`, {
                     headers: { 'Authorization': `Bearer ${state.token}` }
@@ -1724,7 +1737,7 @@
             body.innerHTML = '';
 
             let data = [];
-            if (isDemo) {
+            if (isDemo || state.token === 'demo-jwt-token' || (state.user && state.user.demo)) {
                 data = [
                     { company: "TechNova Solutions", sector: "IT", score: 82, decision: "APPROVE", limit: "1.2 Cr", date: "2024-05-20" },
                     { company: "GreenLeaf Agro", sector: "Retail", score: 45, decision: "DECLINE", limit: "0 Cr", date: "2024-05-19" },
