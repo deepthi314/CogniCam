@@ -1,4 +1,4 @@
-﻿// COGNICAM Frontend Application
+// COGNICAM Frontend Application
 // Context-Aware Credit Appraisal Engine
 
 // CONSTANTS
@@ -518,3 +518,7 @@ async function checkBackendHealth() {
   }
 }
 
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("open");
+}
