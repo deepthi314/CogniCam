@@ -11,7 +11,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&family=Syne:wght@700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2.2">
+    <link rel="stylesheet" href="style.css?v=8.0">
+    <!-- Silence favicon 404 error -->
+    <link rel="icon" href="data:,">
+
 </head>
 
 
@@ -21,6 +24,9 @@
         <button id="mobile-toggle" onclick="toggleSidebar()">☰</button>
         <div class="mobile-logo">COGNICAM</div>
     </div>
+
+    <!-- SIDEBAR BACKDROP (mobile only) -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
     <div id="app">
 
@@ -142,16 +148,16 @@
                 </div>
 
                 <nav class="nav-links">
-                    <div class="nav-item"><a href="#" class="nav-link active" onclick="showView('dashboard')"><i>🏠</i>
+                    <div class="nav-item"><a href="#" class="nav-link active" onclick="showView('dashboard'); closeSidebar()"><i>🏠</i>
                             Dashboard</a></div>
-                    <div class="nav-item"><a href="#" class="nav-link" onclick="startAppraisal()"><i>⚡</i> New
+                    <div class="nav-item"><a href="#" class="nav-link" onclick="startAppraisal(); closeSidebar()"><i>⚡</i> New
                             Appraisal</a></div>
-                    <div class="nav-item"><a href="#" class="nav-link" onclick="showView('history')"><i>📋</i>
+                    <div class="nav-item"><a href="#" class="nav-link" onclick="showView('history'); closeSidebar()"><i>📋</i>
                             History</a></div>
-                    <div class="nav-item"><a href="#" class="nav-link" onclick="showView('analytics')"><i>📊</i>
+                    <div class="nav-item"><a href="#" class="nav-link" onclick="showView('analytics'); closeSidebar()"><i>📊</i>
                             Analytics</a>
                     </div>
-                    <div class="nav-item"><a href="#" class="nav-link" onclick="showView('settings')"><i>⚙️</i>
+                    <div class="nav-item"><a href="#" class="nav-link" onclick="showView('settings'); closeSidebar()"><i>⚙️</i>
                             Settings</a>
                     </div>
                 </nav>
@@ -414,7 +420,6 @@
                                     <div class="cursor"></div>
                                 </div>
 
-
                                 <div id="research-results-container" style="display: none;">
                                     <div class="step-panel-grid" style="margin-bottom: 32px;">
                                         <!-- Promoter Intelligence Card -->
@@ -423,45 +428,41 @@
                                             <div id="promoter-intel-summary" style="font-size: 13px; line-height: 1.5;">
                                                 <div style="margin-bottom: 12px; display: flex; justify-content: space-between;">
                                                     <strong>DIN Status:</strong>
-
-                                                    <span class="chip"
-                                                        style="background: var(--emerald); color: white;">ACTIVE</span>
+                                                    <span class="chip" style="background: var(--emerald); color: white;">ACTIVE</span>
                                                 </div>
-                                                <div id="promoter-risk-flags"
-                                                    style="color: var(--danger); font-weight: 600; margin-bottom: 10px; font-size: 11px;">
+                                                <div id="promoter-risk-flags" style="color: var(--danger); font-weight: 600; margin-bottom: 10px; font-size: 11px;">
                                                     Checking registries...
                                                 </div>
-                                                <div id="promoter-news"
-                                                    style="font-size: 11px; opacity: 0.9; border-top: 1px solid rgba(16,185,129,0.2); padding-top: 8px;">
+                                                <div id="promoter-news" style="font-size: 11px; opacity: 0.9; border-top: 1px solid rgba(16,185,129,0.2); padding-top: 8px;">
                                                     No adverse media detected in last 24 months.
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <!-- Sector Headwinds Card (Section 3C) -->
-                                        <div class="glass-card" id="sectorHeadwindsCard"
-                                            style="background: rgba(239, 68, 68, 0.05); border: 1px solid var(--danger); border-radius: 20px;">
-                                            <h4
-                                                style="margin-bottom: 16px; color: var(--danger); display: flex; align-items: center; gap: 8px;">
+                                        <!-- Sector Headwinds Card -->
+                                        <div class="glass-card" id="sectorHeadwindsCard" style="background: rgba(239, 68, 68, 0.05); border: 1px solid var(--danger); border-radius: 20px;">
+                                            <h4 style="margin-bottom: 16px; color: var(--danger); display: flex; align-items: center; gap: 8px;">
                                                 🌪️ Sector Headwinds
                                             </h4>
-                                            <div id="sector-headwinds-summary"
-                                                style="font-size: 13px; line-height: 1.5;">
-                                                <div
-                                                    style="margin-bottom: 8px; display: flex; justify-content: space-between;">
+                                            <div id="sector-headwinds-summary" style="font-size: 13px; line-height: 1.5;">
+                                                <div style="margin-bottom: 8px; display: flex; justify-content: space-between;">
                                                     <strong>Outlook:</strong>
                                                     <span id="sector-sentiment-badge" class="chip">STABLE</span>
                                                 </div>
-                                                <div id="sector-alert"
-                                                    style="color: var(--danger); font-weight: 600; font-size: 11px; margin-bottom: 4px;">
+                                                <div id="sector-alert" style="color: var(--danger); font-weight: 600; font-size: 11px; margin-bottom: 4px;">
                                                     No major regulatory alerts.
                                                 </div>
                                                 <div id="rbi-impact" style="font-size: 11px; opacity: 0.8;">
                                                     RBI Policy: Neutral impact on MSME liquidity.
                                                 </div>
-                                               <div class="pulse-grid">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- News Pulse & AI Sentiment — sibling row below the promoter/headwinds grid -->
+                                    <div class="pulse-grid" style="margin-bottom: 32px;">
                                         <div class="glass-card">
-                                            <h4 style="margin-bottom: 16px; color: var(--indigo-bright);">📰 News & Litigation Pulse</h4>
+                                            <h4 style="margin-bottom: 16px; color: var(--indigo-bright);">📰 News &amp; Litigation Pulse</h4>
                                             <div id="news-pulse-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
                                         </div>
                                         <div class="glass-card sentiment-display">
@@ -474,15 +475,10 @@
                                         </div>
                                     </div>
                                 </div>
-   </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div style="display: flex; justify-content: flex-end; gap: 16px;">
                                     <button class="btn btn-ghost" onclick="prevStep()">← Back</button>
-                                    <button class="btn btn-primary" onclick="nextStep()" id="btn-step3-next"
-                                        disabled>Continue →</button>
+                                    <button class="btn btn-primary" onclick="nextStep()" id="btn-step3-next" disabled>Continue →</button>
                                 </div>
                             </div>
                         </div>
@@ -1156,24 +1152,30 @@
 
             state.currentView = viewId;
 
+            const mainLayout = document.getElementById('main-layout');
+
             // UI Updates based on view
-            if (viewId === 'dashboard') {
-                document.getElementById('main-layout').classList.remove('layout-hidden');
-                document.getElementById('page-title').innerText = "Dashboard";
-                loadDashboard();
-            } else if (viewId === 'auth') {
-                document.getElementById('main-layout').classList.add('layout-hidden');
-            } else if (viewId === 'appraisal') {
-                document.getElementById('page-title').innerText = "New Appraisal Wizard";
-            } else if (viewId === 'history') {
-                document.getElementById('page-title').innerText = "Appraisal History";
-                loadHistory();
-            } else if (viewId === 'analytics') {
-                document.getElementById('page-title').innerText = "Portfolio Analytics";
-                loadAnalytics();
-            } else if (viewId === 'settings') {
-                document.getElementById('page-title').innerText = "Account Settings";
-                loadSettings(); // Section 3I: Ensure settings are loaded every time the view is shown
+            if (viewId === 'auth') {
+                mainLayout.classList.add('layout-hidden');
+            } else {
+                // ALL non-auth views: make sure layout is visible
+                mainLayout.classList.remove('layout-hidden');
+
+                if (viewId === 'dashboard') {
+                    document.getElementById('page-title').innerText = "Dashboard";
+                    loadDashboard();
+                } else if (viewId === 'appraisal') {
+                    document.getElementById('page-title').innerText = "New Appraisal Wizard";
+                } else if (viewId === 'history') {
+                    document.getElementById('page-title').innerText = "Appraisal History";
+                    loadHistory();
+                } else if (viewId === 'analytics') {
+                    document.getElementById('page-title').innerText = "Portfolio Analytics";
+                    loadAnalytics();
+                } else if (viewId === 'settings') {
+                    document.getElementById('page-title').innerText = "Account Settings";
+                    loadSettings();
+                }
             }
 
             // Update Sidebar links
@@ -1407,6 +1409,89 @@
             }
         }
 
+        async function loadHistory() {
+            showLoading(true, "Synchronizing Appraisal Archive...");
+            let data = [];
+            try {
+                if (!state.token || state.token === 'demo-jwt-token' || DEMO_MODE) {
+                    data = DEMO_DATA.historyList;
+                } else {
+                    const resp = await fetch(`${API_BASE}/history/`, {
+                        headers: { 'Authorization': `Bearer ${state.token}` }
+                    });
+                    if (resp.ok) {
+                        const result = await resp.json();
+                        data = result.items || [];
+                    } else {
+                        data = DEMO_DATA.historyList;
+                    }
+                }
+            } catch (e) {
+                console.error("[HISTORY]", e);
+                data = DEMO_DATA.historyList;
+            } finally {
+                state.history = data;
+                renderHistoryTable(data);
+                showLoading(false);
+            }
+        }
+
+        function filterHistory(filter) {
+            // Update button styles
+            document.querySelectorAll('.filter-group .btn').forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-outline');
+            });
+            const activeBtn = document.getElementById('filter' + filter.charAt(0).toUpperCase() + filter.slice(1));
+            if (activeBtn) {
+                activeBtn.classList.remove('btn-outline');
+                activeBtn.classList.add('btn-primary');
+            }
+
+            if (filter === 'all') {
+                renderHistoryTable(state.history);
+            } else {
+                const filtered = state.history.filter(item => item.decision.toLowerCase() === filter.toLowerCase());
+                renderHistoryTable(filtered);
+            }
+        }
+
+        function renderHistoryTable(data) {
+            const body = document.getElementById('history-body');
+            const count = document.getElementById('history-count');
+            if (!body) return;
+
+            body.innerHTML = '';
+            count.innerText = `Showing ${data.length} appraisals`;
+
+            if (data.length === 0) {
+                body.innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--text-muted);">No records found matching this filter.</td></tr>`;
+                return;
+            }
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                const decision = row.decision || 'PENDING';
+                const color = decision === 'APPROVE' ? 'var(--emerald)' : (decision === 'DECLINE' ? 'var(--danger)' : 'var(--amber)');
+                
+                tr.innerHTML = `
+                    <td><strong>${row.company_name || row.company}</strong></td>
+                    <td><div style="font-weight:700; color: ${row.final_score >= 60 ? 'var(--emerald)' : 'var(--danger)'}">${row.final_score || row.score}</div></td>
+                    <td><span class="decision-badge" style="background: ${color}">${decision}</span></td>
+                    <td>₹${row.credit_limit_cr || row.limit} Cr</td>
+                    <td><span class="chip">${row.risk_grade || 'B'}</span></td>
+                    <td>${new Date(row.created_at || row.date).toLocaleDateString()}</td>
+                    <td><button class="btn btn-ghost" style="padding: 4px 8px; font-size:12px;" onclick="viewDetail('${row.id}')">View</button></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function viewDetail(id) {
+            showToast("Navigation to detailed report for ID: " + id, "info");
+            // In a real app, this would switch to a detail view or open a modal
+        }
+
         function loadSettings() {
             const user = state.user || DEMO_DATA.user || {};
             const fields = {
@@ -1419,7 +1504,7 @@
                 const el = document.getElementById(id);
                 if (el) el.value = value;
             });
-            console.log('[SETTINGS] Pre-populated from user:', user.username);
+            console.log('[SETTINGS] Pre-populated from user:', user?.username || 'demo');
         }
 
         async function updateProfile() {
@@ -2955,6 +3040,206 @@ Generated on: ${new Date().toLocaleString()}`;
             } catch (e) {
                 showToast("Error deleting record", "error");
             }
+        }
+
+        // --- DASHBOARD & ANALYTICS LOGIC ---
+        function loadDashboard() {
+            const list = DEMO_DATA.historyList || [];
+            const approved = list.filter(h => (h.decision || '').toUpperCase() === 'APPROVE').length;
+            const declined = list.filter(h => (h.decision || '').toUpperCase() === 'DECLINE').length;
+            const total = list.length;
+            const sumScore = list.reduce((acc, h) => acc + (h.final_score || 0), 0);
+            const avg = total > 0 ? Math.round(sumScore / total) : 0;
+
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-approved').innerText = approved;
+            document.getElementById('stat-declined').innerText = declined;
+            document.getElementById('stat-avg').innerText = avg;
+
+            // Load recent table (reuse history row renderer)
+            const recentBody = document.querySelector('#view-dashboard tbody');
+            if (recentBody) {
+                const recent = list.slice(0, 5);
+                recentBody.innerHTML = '';
+                recent.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${row.company_name}</strong></td>
+                        <td>${row.sector}</td>
+                        <td><div style="font-weight:700; color: ${row.final_score >= 60 ? 'var(--emerald)' : 'var(--danger)'}">${row.final_score}</div></td>
+                        <td><span class="decision-badge" style="font-size: 10px; padding: 4px 8px; background: ${row.decision === 'APPROVE' ? 'var(--emerald)' : (row.decision === 'DECLINE' ? 'var(--danger)' : 'var(--amber)')}">${row.decision}</span></td>
+                        <td>₹${row.credit_limit_cr} Cr</td>
+                        <td>${new Date(row.created_at).toLocaleDateString()}</td>
+                        <td><button onclick="viewDetail('${row.id}')" class="btn btn-ghost">👁️</button></td>
+                    `;
+                    recentBody.appendChild(tr);
+                });
+            }
+        }
+
+        function loadAnalytics() {
+            const list = DEMO_DATA.historyList || [];
+            
+            // 1. KPI Cards
+            const statsGrid = document.getElementById('analytics-stats-grid');
+            if (statsGrid) {
+                const approvedRate = list.length > 0 ? Math.round((list.filter(h => h.decision === 'APPROVE').length / list.length) * 100) : 0;
+                const highRisk = list.filter(h => h.final_score < 50).length;
+                const avgScore = list.length > 0 ? Math.round(list.reduce((s, h) => s + (h.final_score || 0), 0) / list.length) : 0;
+                const totalCases = list.length;
+                statsGrid.innerHTML = `
+                    <div class="glass-card stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="color: var(--green);">✅</div>
+                            <div class="stat-trend trend-up">↑ 8%</div>
+                        </div>
+                        <div class="stat-value">${approvedRate}%</div>
+                        <div class="stat-label">Approval Velocity</div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="color: var(--red);">⚠️</div>
+                            <div class="stat-trend trend-down">High Risk</div>
+                        </div>
+                        <div class="stat-value" style="color: var(--red)">${highRisk}</div>
+                        <div class="stat-label">High Risk Exposure</div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="color: var(--indigo2);">📊</div>
+                            <div class="stat-trend trend-up">↑ 5pts</div>
+                        </div>
+                        <div class="stat-value">${avgScore}</div>
+                        <div class="stat-label">Avg Credit Score</div>
+                    </div>
+                    <div class="glass-card stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon" style="color: var(--amber);">📋</div>
+                            <div class="stat-trend trend-up">↑ 12%</div>
+                        </div>
+                        <div class="stat-value">${totalCases}</div>
+                        <div class="stat-label">Total Appraisals</div>
+                    </div>
+                `;
+            }
+
+            // 2. Monthly Trends Simulation
+            const trendsContainer = document.getElementById('chart-monthly-trends');
+            const trendsLabels = document.getElementById('chart-monthly-labels');
+            if (trendsContainer) {
+                trendsContainer.innerHTML = '';
+                trendsLabels.innerHTML = '';
+                const months = ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'];
+                const values = [45, 52, 38, 65, 48, 72];
+                values.forEach((val, i) => {
+                    const bar = document.createElement('div');
+                    bar.style.cssText = `flex: 1; height: ${val}%; background: linear-gradient(to top, var(--indigo), var(--indigo-bright)); border-radius: 6px 6px 0 0; position: relative; transition: height 1s ease;`;
+                    trendsContainer.appendChild(bar);
+                    
+                    const lb = document.createElement('span');
+                    lb.innerText = months[i];
+                    trendsLabels.appendChild(lb);
+                });
+            }
+
+            // 3. Score Distribution (Simple Bar Simulation)
+            const distContainer = document.getElementById('chart-score-dist');
+            if (distContainer) {
+                distContainer.innerHTML = '';
+                const buckets = [0, 0, 0, 0, 0]; // 0-20, 21-40, 41-60, 61-80, 81-100
+                list.forEach(h => {
+                    const idx = Math.min(4, Math.floor((h.final_score - 1) / 20));
+                    if (idx >= 0) buckets[idx]++;
+                });
+                const max = Math.max(...buckets, 1);
+                buckets.forEach((count, i) => {
+                    const bar = document.createElement('div');
+                    const height = (count / max) * 100;
+                    bar.style.cssText = `flex: 1; height: ${height}%; background: var(--indigo); border-radius: 4px; transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1); position: relative; cursor: pointer;`;
+                    bar.onmouseover = () => bar.style.background = 'var(--indigo-bright)';
+                    bar.onmouseout = () => bar.style.background = 'var(--indigo)';
+                    distContainer.appendChild(bar);
+                });
+            }
+
+            // 4. Decision Split (Circular Simulation)
+            const splitContainer = document.getElementById('chart-decision-split');
+            if (splitContainer) {
+                const app = list.filter(h => h.decision === 'APPROVE').length;
+                const dec = list.filter(h => h.decision === 'DECLINE').length;
+                const con = list.filter(h => h.decision.includes('CONDITIONAL')).length;
+                const total = list.length || 1;
+                
+                splitContainer.innerHTML = `
+                    <div style="position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: conic-gradient(var(--emerald) 0% ${Math.round(app/total*100)}%, var(--danger) ${Math.round(app/total*100)}% ${Math.round((app+dec)/total*100)}%, var(--amber) ${Math.round((app+dec)/total*100)}% 100%);">
+                        <div style="width: 100px; height: 100px; background: var(--bg-card); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.4);">
+                            <span style="font-size: 22px; font-weight: 800; color: var(--text-primary)">${Math.round(app/total*100)}%</span>
+                            <span style="font-size: 9px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Approval</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 5. Sector Performance
+            const sectorBody = document.getElementById('analytics-sector-body');
+            if (sectorBody) {
+                const sectors = {};
+                list.forEach(h => {
+                    if (!sectors[h.sector]) sectors[h.sector] = { count: 0, score: 0, approvals: 0 };
+                    sectors[h.sector].count++;
+                    sectors[h.sector].score += h.final_score;
+                    if (h.decision === 'APPROVE') sectors[h.sector].approvals++;
+                });
+
+                sectorBody.innerHTML = '';
+                Object.entries(sectors).forEach(([name, s]) => {
+                    const avg = Math.round(s.score / s.count);
+                    const rate = Math.round((s.approvals / s.count) * 100);
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${name}</strong></td>
+                        <td>${s.count}</td>
+                        <td><div style="font-weight:700; color: ${avg > 65 ? 'var(--emerald)' : 'var(--amber)'}">${avg}</div></td>
+                        <td>${rate}%</td>
+                        <td><span class="chip" style="color: ${avg > 65 ? 'var(--emerald)' : 'var(--amber)'}">${avg > 65 ? 'Stable' : 'Volatile'}</span></td>
+                    `;
+                    sectorBody.appendChild(tr);
+                });
+            }
+        }
+
+        function loadSettings() {
+            if (state.user) {
+                document.getElementById('settings-name').value = state.user.full_name || '';
+                document.getElementById('settings-email').value = state.user.email || '';
+                document.getElementById('settings-org').value = state.user.organization || '';
+                document.getElementById('settings-role').value = state.user.role || '';
+            }
+        }
+
+        async function updateProfile() {
+            showToast("Profile features restricted in current environment", "info");
+        }
+
+        async function updatePassword() {
+            showToast("Password change requires secure verification", "info");
+        }
+
+        // ── SIDEBAR TOGGLE (mobile) ─────────────────────────────
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            const isOpen = sidebar.classList.toggle('open');
+            if (backdrop) backdrop.classList.toggle('visible', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            sidebar.classList.remove('open');
+            if (backdrop) backdrop.classList.remove('visible');
+            document.body.style.overflow = '';
         }
     </script>
 </body>

@@ -520,5 +520,17 @@ async function checkBackendHealth() {
 
 function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
-  sidebar.classList.toggle("open");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  const isOpen = sidebar.classList.toggle("open");
+  if (backdrop) backdrop.classList.toggle("visible", isOpen);
+  // Prevent background scroll when sidebar is open on mobile
+  document.body.style.overflow = isOpen ? "hidden" : "";
+}
+
+function closeSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  sidebar.classList.remove("open");
+  if (backdrop) backdrop.classList.remove("visible");
+  document.body.style.overflow = "";
 }
